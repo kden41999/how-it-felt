@@ -1,7 +1,7 @@
 # How It Felt - Speaker Script (about 2.5 minutes)
 
 ## Slide 1 - cover (15 seconds)
-Hi, I'm Aito. My project is called How It Felt. It's an interactive museum of ordinary experiences from 2026, built for the people of 3026. It's a website with three small exhibits, and the whole thing is already playable.
+Hi, I'm Aitole. My project is called How It Felt. It's an interactive museum of ordinary experiences from 2026, built for the people of 3026. It's a website with three small exhibits, and the whole thing is already playable.
 
 ## Slide 2 - the idea (35 seconds)
 The starting point was a frustration. Most messages to the future try to say something big, love, hope, warnings, and they all end up sounding the same. What actually disappears over a thousand years is not our big statements. It's the texture of being alive. People in 3026 will have our phones in their museums. They will never know what it felt like to wait eleven minutes for a reply and then receive "ok". So in this project, you don't read about the feeling. You have the feeling, briefly. Each exhibit is a small simulation, not a text.
