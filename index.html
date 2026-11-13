@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Glowtide</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js"></script>
+<style>
+  body { margin: 0; background: #060e22; overflow: hidden; font-family: Helvetica, Arial, sans-serif; }
+  #letterCard {
+    position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+    width: 300px; background: #f4f0e4; color: #28303f;
+    padding: 26px 28px; border-radius: 14px; display: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  #letterCard h3 { margin: 0 0 12px; font-size: 20px; }
+  #letterCard p { margin: 0; line-height: 1.6; font-size: 15px; }
+  #writer {
+    position: absolute; left: 40px; bottom: 36px;
+    background: rgba(16, 26, 44, 0.92); border: 1px solid #28425e;
+    border-radius: 14px; padding: 18px 20px; width: 340px;
+  }
+  #writer label { color: #c8e0ee; font-size: 15px; display: block; margin-bottom: 10px; }
+  #letterInput {
+    width: 220px; padding: 10px 12px; border-radius: 8px; border: none;
+    font-size: 14px; background: #e8ecf2; color: #333;
+  }
+  #sendBtn {
+    padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer;
+    background: #6ee6dc; color: #0a282d; font-weight: bold; font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div id="letterCard"><h3 id="cardTitle">dear 3026,</h3><p id="cardText"></p></div>
+<div id="writer">
+  <label>write a letter to the year 3026</label>
+  <input id="letterInput" placeholder="dear future..." maxlength="140">
+  <button id="sendBtn">send</button>
+</div>
+<script src="sketch.js"></script>
+</body>
+</html>
