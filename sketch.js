@@ -1,21 +1,22 @@
-let swimmers = [];
+let stars = [];
+let comets = [];
 let card;
 let cardText;
 let hum;
 let audioStarted = false;
 
 const seedLetters = [
-  "I hope the ocean is still alive when you read this.",
+  "I hope the night sky is still dark enough to see me.",
   "We had flying cars in our dreams. Did you get them?",
-  "Tell the stars we said hello.",
+  "Tell the stars we said hello back.",
   "I wrote this between two lectures. The coffee was terrible. I was happy.",
   "If money is gone, good. If music is gone, bring it back.",
   "Someone in 2026 loved someone who never knew. This is how I tell you.",
-  "The sky here is still blue. I hope yours is too.",
+  "The sky here is still blue in the day. I hope yours is too.",
   "We were scared of the future. You are the future. Be kind to us.",
   "My grandmother said letters outlive their writers. Prove her right.",
   "I am sending you the sound of rain on a tent. Keep it safe.",
-  "Do people still swim? The water was cold and we went in anyway.",
+  "Do people still look up? We forgot to, most days.",
   "Forgive us for the noise. Some of us were listening."
 ];
 
@@ -25,10 +26,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   card = select("#letterCard");
   cardText = select("#cardText");
-  textFont("Helvetica");
+  textFont("Georgia");
 
   for (let i = 0; i < seedLetters.length; i++) {
-    swimmers.push(new Creature(random(80, width - 120), random(120, height - 140), seedLetters[i]));
+    stars.push(new Star(random(90, width - 140), random(90, height * 0.62), seedLetters[i]));
   }
 
   select("#sendBtn").mousePressed(sendLetter);
@@ -45,7 +46,9 @@ function sendLetter() {
   let inp = select("#letterInput");
   let msg = inp.value().trim();
   if (msg.length === 0) return;
-  swimmers.push(new Creature(width * 0.32, height - 120, msg));
+  let targetX = random(90, width - 140);
+  let targetY = random(90, height * 0.62);
+  comets.push(new Comet(targetX, targetY, msg));
   inp.value("");
 }
 
@@ -59,20 +62,40 @@ function warmth(text) {
 }
 
 function draw() {
-  drawOcean();
+  drawSky();
+
+  for (let i = 0; i < stars.length; i++) {
+    for (let j = i + 1; j < stars.length; j++) {
+      let dd = dist(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
+      if (dd < 220) {
+        stroke(140, 170, 220, map(dd, 0, 220, 34, 6));
+        strokeWeight(1);
+        line(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
+      }
+    }
+  }
+  noStroke();
 
   let hovered = null;
-  for (let s of swimmers) {
-    s.move();
+  for (let s of stars) {
+    s.twinkle();
     s.show();
     if (s.isHover()) hovered = s;
   }
 
+  for (let i = comets.length - 1; i >= 0; i--) {
+    comets[i].move();
+    comets[i].show();
+    if (comets[i].done) {
+      stars.push(new Star(comets[i].tx, comets[i].ty, comets[i].letter));
+      comets.splice(i, 1);
+    }
+  }
+
   if (hovered) {
-    hovered.glowUp();
-    let f = map(hovered.size, 10, 46, 220, 440);
+    let f = map(hovered.size, 3, 12, 330, 660);
     hum.freq(f, 0.1);
-    hum.amp(0.06, 0.1);
+    hum.amp(0.05, 0.1);
     cursor(HAND);
   } else {
     hum.amp(0, 0.2);
@@ -80,13 +103,21 @@ function draw() {
   }
 }
 
-function drawOcean() {
+function drawSky() {
   for (let y = 0; y < height; y++) {
     let t = y / height;
-    stroke(6 + 4 * t, 14 + 8 * t, 34 + 18 * t);
+    stroke(8 + 6 * t, 10 + 6 * t, 28 + 14 * t);
     line(0, y, width, y);
   }
   noStroke();
+  for (let i = 0; i < 90; i++) {
+    let sx = (i * 197.3) % width;
+    let sy = (i * 131.7) % (height * 0.75);
+    let tw = 120 + 60 * sin(frameCount * 0.03 + i);
+    fill(200, 215, 240, tw * 0.5);
+    circle(sx, sy, 1.6);
+  }
+  noFill();
 }
 
 function mousePressed() {
@@ -94,85 +125,104 @@ function mousePressed() {
     userStartAudio();
     audioStarted = true;
   }
-  for (let s of swimmers) {
+  for (let s of stars) {
     if (s.isHover()) {
       card.style("display", "block");
       cardText.html(s.letter);
-      s.flash();
+      s.flashTimer = 40;
       return;
     }
   }
   card.style("display", "none");
 }
 
-class Creature {
+class Star {
   constructor(x, y, letter) {
     this.x = x;
     this.y = y;
     this.letter = letter;
     this.seed = random(1000);
-    this.size = map(constrain(letter.length, 10, 140), 10, 140, 10, 46);
+    this.size = map(constrain(letter.length, 10, 140), 10, 140, 3.5, 12);
     let w = warmth(letter);
-    this.col = lerpColor(color(90, 190, 255), color(255, 190, 120), w);
-    this.glow = 1;
+    this.col = lerpColor(color(170, 200, 255), color(255, 214, 140), w);
     this.flashTimer = 0;
+    this.born = frameCount;
   }
 
-  move() {
-    let n = noise(this.seed + frameCount * 0.002);
-    this.x += map(n, 0, 1, -0.6, 0.6);
-    this.y += sin(frameCount * 0.01 + this.seed) * 0.35 - 0.12;
-    if (this.y < -60) {
-      this.y = height + 60;
-      this.x = random(80, width - 80);
-    }
-    if (this.x < -80) this.x = width + 80;
-    if (this.x > width + 80) this.x = -80;
-  }
+  twinkle() {}
 
   isHover() {
-    return dist(mouseX, mouseY, this.x, this.y) < this.size + 18;
-  }
-
-  glowUp() {
-    this.glow = min(this.glow + 0.12, 2.6);
-  }
-
-  flash() {
-    this.flashTimer = 30;
+    return dist(mouseX, mouseY, this.x, this.y) < this.size + 14;
   }
 
   show() {
-    this.glow = max(this.glow - 0.02, 1);
-    let g = this.glow;
-    if (this.flashTimer > 0) {
-      g += this.flashTimer / 30;
-      this.flashTimer--;
-    }
-    let r = red(this.col), gr = green(this.col), b = blue(this.col);
+    let hov = this.isHover();
+    let tw = 0.75 + 0.25 * sin(frameCount * 0.05 + this.seed * 3);
+    let r = red(this.col), g = green(this.col), b = blue(this.col);
+    let grow = min((frameCount - this.born) / 60, 1);
+    let size = this.size * grow;
 
-    for (let i = 6; i > 0; i--) {
-      let rr = this.size + i * this.size * 0.55;
-      fill(r, gr, b, 14 * g * (i / 6) * 2);
-      ellipse(this.x, this.y, rr * 2);
+    let haloR = size * (hov ? 7 : 4.5);
+    for (let i = 4; i > 0; i--) {
+      let a = (hov ? 26 : 12) * (i / 4);
+      fill(r, g, b, a);
+      circle(this.x, this.y, haloR * (i / 4) * 2);
     }
 
-    stroke(r, gr, b, 90 * g);
-    strokeWeight(2);
-    noFill();
-    beginShape();
-    for (let k = 0; k < 20; k++) {
-      let tx = this.x - this.size - k * 4;
-      let ty = this.y + sin(frameCount * 0.08 + k * 0.5 + this.seed) * this.size * 0.3;
-      vertex(tx, ty);
-    }
-    endShape();
+    let spike = size * (hov ? 3.4 : 2.4) * tw;
+    stroke(r, g, b, hov ? 200 : 130);
+    strokeWeight(1.4);
+    line(this.x - spike, this.y, this.x + spike, this.y);
+    line(this.x, this.y - spike, this.x, this.y + spike);
     noStroke();
 
-    fill(r, gr, b, 220);
-    ellipse(this.x, this.y, this.size * 2);
-    fill(255, 255, 255, 200);
-    ellipse(this.x, this.y, this.size * 0.9);
+    fill(r, g, b, 235 * tw);
+    circle(this.x, this.y, size * 2);
+    fill(255, 255, 255, 230);
+    circle(this.x, this.y, size * 0.9);
+
+    if (hov) {
+      noFill();
+      stroke(255, 220, 150, 160);
+      strokeWeight(1.5);
+      let ring = size * 3 + 6 * sin(frameCount * 0.12);
+      circle(this.x, this.y, ring * 2);
+      noStroke();
+    }
+
+    if (this.flashTimer > 0) {
+      fill(255, 240, 200, this.flashTimer * 3);
+      circle(this.x, this.y, size * 2 + this.flashTimer);
+      this.flashTimer--;
+    }
+  }
+}
+
+class Comet {
+  constructor(tx, ty, letter) {
+    this.tx = tx;
+    this.ty = ty;
+    this.letter = letter;
+    this.x = tx + width * 0.35;
+    this.y = -40;
+    this.done = false;
+  }
+
+  move() {
+    this.x += (this.tx - this.x) * 0.06;
+    this.y += (this.ty - this.y) * 0.06;
+    if (dist(this.x, this.y, this.tx, this.ty) < 2) this.done = true;
+  }
+
+  show() {
+    stroke(255, 230, 170, 140);
+    strokeWeight(2);
+    line(this.x, this.y, this.x + 26, this.y - 18);
+    noStroke();
+    fill(255, 236, 190);
+    circle(this.x, this.y, 8);
+    fill(255, 255, 255);
+    circle(this.x, this.y, 4);
   }
 }
 

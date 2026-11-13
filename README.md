@@ -1,7 +1,7 @@
-# Glowtide
+# Starletter
 
-An interactive net art piece that turns letters to the year 3026 into living light. Each letter is a glowing creature drifting through a dark ocean. Hover to make it glow and hum. Click to read the letter. Write your own and watch it hatch into a new swimmer.
+An interactive net art piece that turns letters to the year 3026 into a growing night sky. Each letter is a star. Hover near one and it brightens into gold and sings a soft note. Click to read the letter. Write your own and it streaks across the page as a comet and takes its place among the constellations.
 
 Built with p5.js for Project B (Dear Future), Creative Coding Lab, Fall 2026.
 
-Live: https://kden41999.github.io/glowtide/
+Live: https://kden41999.github.io/starletter/
