@@ -2,98 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Starletter - Project Proposal</title>
+<title>How It Felt - Project Proposal</title>
 <style>
+  :root { --paper: #f4f0e6; --ink: #1c1a16; --red: #b3402a; --muted: #6e6454; --rule: #d8d2c2; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #060e22;
-    color: #e8f0f5;
-    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--paper); color: var(--ink);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     overflow: hidden;
   }
   .slide {
-    width: 100vw; height: 100vh;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    padding: 8vh 10vw;
+    width: 100vw; height: 100vh; display: none;
+    flex-direction: column; justify-content: center; padding: 7vh 7vw;
     position: relative;
   }
   .slide.active { display: flex; }
   .kicker {
-    font-size: 1.1rem; letter-spacing: 0.35em; text-transform: uppercase;
-    color: #ffd68c; margin-bottom: 2.2vh;
+    font-size: 0.95rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--red); margin-bottom: 2.4vh; font-weight: 700;
   }
-  h1 { font-size: 6rem; font-weight: 700; line-height: 1.05; }
-  h2 { font-size: 3.4rem; font-weight: 700; line-height: 1.1; margin-bottom: 3vh; }
-  p.lede { font-size: 1.7rem; line-height: 1.55; color: #b8cede; max-width: 62ch; margin-top: 3vh; }
-  .sub { color: #8fa8bd; font-size: 1.3rem; margin-top: 1.6vh; }
-  .num { position: absolute; bottom: 4vh; right: 5vw; color: #2c4258; font-size: 1rem; letter-spacing: 0.2em; }
-  .ref {
-    border-left: 3px solid #ffd68c;
-    padding: 1.4vh 0 1.4vh 2vw;
-    margin: 2.4vh 0;
-    max-width: 70ch;
-  }
-  .ref .name { font-size: 1.5rem; font-weight: 700; color: #eaf4f8; }
-  .ref .url { font-size: 1.05rem; color: #ffd68c; margin: 0.4vh 0 0.8vh; }
-  .ref .why { font-size: 1.15rem; color: #b8cede; line-height: 1.5; }
-  .proto-img {
-    max-height: 68vh; max-width: 100%;
-    border-radius: 14px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
-  }
+  h1 { font-size: 6.4rem; font-weight: 700; line-height: 1.02; }
+  h2 { font-size: 3.2rem; font-weight: 700; line-height: 1.1; margin-bottom: 3vh; }
+  p.lede { font-size: 1.6rem; line-height: 1.6; color: #4a4234; max-width: 60ch; margin-top: 3vh; }
+  .sub { color: var(--muted); font-size: 1.2rem; margin-top: 2vh; }
+  .rule { height: 3px; background: var(--ink); width: 100%; margin: 3vh 0; }
+  .num { position: absolute; bottom: 4vh; right: 5vw; color: var(--muted); font-size: 0.95rem; letter-spacing: 0.2em; }
+  .ref { border-left: 4px solid var(--red); padding: 0.6vh 0 0.6vh 2vw; margin: 2.4vh 0; max-width: 72ch; }
+  .ref .name { font-size: 1.45rem; font-weight: 700; }
+  .ref .url { font-size: 1.05rem; color: var(--red); margin: 0.5vh 0 0.9vh; }
+  .ref .why { font-size: 1.12rem; color: #4a4234; line-height: 1.55; }
+  .proto-img { max-height: 70vh; max-width: 100%; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
   .center { align-items: center; text-align: center; }
-  .steps { display: flex; gap: 3vw; margin-top: 4vh; }
-  .step { flex: 1; background: #0b1830; border: 1px solid #1d3450; border-radius: 16px; padding: 3vh 2vw; }
-  .step .t { font-size: 1.3rem; font-weight: 700; color: #ffd68c; margin-bottom: 1vh; }
-  .step .b { font-size: 1.05rem; color: #b8cede; line-height: 1.5; }
-  .dot {
-    display: inline-block; width: 14px; height: 14px; border-radius: 50%;
-    background: #ffd68c; box-shadow: 0 0 22px #ffd68c, 0 0 60px #ffd68c66;
-    margin-right: 14px; vertical-align: middle;
-  }
+  .steps { display: flex; gap: 2.4vw; margin-top: 4vh; }
+  .step { flex: 1; background: #faf7ef; border: 1.5px solid var(--ink); padding: 3vh 1.8vw; }
+  .step .t { font-size: 1.25rem; font-weight: 700; color: var(--red); margin-bottom: 1.2vh; }
+  .step .b { font-size: 1.05rem; color: #4a4234; line-height: 1.6; }
+  .demo { margin-top: 3vh; border: 2px solid var(--ink); max-height: 34vh; }
 </style>
 </head>
 <body>
 
 <section class="slide active">
   <div class="kicker">Project B - Dear Future - Proposal</div>
-  <h1><span class="dot"></span>Starletter</h1>
-  <p class="lede">every letter to the year 3026 becomes a star in a growing sky</p>
+  <h1>How It Felt</h1>
+  <div class="rule"></div>
+  <p class="lede">an interactive field guide to being alive in 2026, preserved for the people of 3026</p>
   <p class="sub">Aito Nurakhan - Interactive Internet Art - Nov 13, 2026</p>
   <div class="num">1 / 5</div>
 </section>
 
 <section class="slide">
   <div class="kicker">The Idea</div>
-  <h2>A sky written to the future</h2>
-  <p class="lede">Starletter is an interactive night sky where every letter written to the year 3026 becomes a star, brightening into gold and singing a soft note when you approach, opening when you click. Write your own letter and it streaks across the page as a comet and takes its place among the constellations.</p>
+  <h2>A museum of ordinary feelings</h2>
+  <p class="lede">How It Felt is an interactive museum of small everyday experiences from 2026, where each exhibit is a playable simulation rather than a text, so the people of 3026 do not read about our lives but briefly live them. They will keep our objects in their museums, and this piece sends them the rest: the waiting, the battery anxiety, the quiet of watching rain.</p>
+  <img class="demo" src="glowtide.gif" alt="The Typing Bubble exhibit demo">
   <div class="num">2 / 5</div>
 </section>
 
 <section class="slide center">
   <div class="kicker">Visual Prototype</div>
-  <img class="proto-img" src="prototype.png" alt="Glowtide concept sketch">
+  <img class="proto-img" src="prototype.png" alt="How It Felt collection page">
   <div class="num">3 / 5</div>
 </section>
 
 <section class="slide">
   <div class="kicker">References</div>
   <div class="ref">
-    <div class="name">We Feel Fine - Jonathan Harris and Sep Kamvar</div>
-    <div class="url">wefeelfine.org</div>
-    <div class="why">Human feelings harvested from blogs become drifting points of light you can catch and read. This is the direct ancestor of my idea: every letter in Starletter carries its own light, motion, and mood.</div>
+    <div class="name">Neal.fun - The Deep Sea and The Size of Space</div>
+    <div class="url">neal.fun</div>
+    <div class="why">Proof that a browser can be a museum. Small, focused interactions explain something by letting you do it, which is exactly the grammar of my exhibits.</div>
   </div>
   <div class="ref">
-    <div class="name">FutureMe</div>
-    <div class="url">futureme.org</div>
-    <div class="why">A service that delivers your letter to your future self, years later. It inspired the core ritual of my piece: writing to someone who is not here yet and trusting the message will arrive.</div>
+    <div class="name">Pippin Barr - v r 3</div>
+    <div class="url">pippinbarr.com/games/vr3/</div>
+    <div class="why">A gallery that exhibits ordinary water, taps, and puddles as art. It showed me that the mundane becomes meaningful when you frame it as a collection worth visiting.</div>
   </div>
   <div class="ref">
-    <div class="name">WindowSwap</div>
-    <div class="url">window-swap.com</div>
-    <div class="why">Strangers share views from their windows across the world. It taught me that a very simple interface can create a quiet, honest connection between people who will never meet.</div>
+    <div class="name">The Museum of Broken Relationships</div>
+    <div class="url">brokenships.com</div>
+    <div class="why">A museum built from donated everyday objects and the feelings attached to them. It is the physical ancestor of my idea: objects survive, and what needs preserving is the feeling around them.</div>
   </div>
   <div class="num">4 / 5</div>
 </section>
@@ -103,16 +90,16 @@
   <h2>Built in p5.js</h2>
   <div class="steps">
     <div class="step">
-      <div class="t">Star class</div>
-      <div class="b">Each letter is an object with position, size, color, twinkle, and sound. Letter length and word warmth set its brightness and hue.</div>
+      <div class="t">Exhibit class</div>
+      <div class="b">A shared Exhibit structure with start, draw, and interaction methods. Each exhibit is its own class: TypingBubble, OnePercent, RainOnGlass. The gallery opens and closes them.</div>
     </div>
     <div class="step">
-      <div class="t">Interaction</div>
-      <div class="b">Hover turns a star gold and plays a soft oscillator note. Click opens the letter. A text field lets visitors write their own, which arrives as a comet and settles into the sky.</div>
+      <div class="t">Interaction as content</div>
+      <div class="b">Waiting, holding still, and wiping are the exhibits themselves. Sound comes from small oscillator blips for messages and filtered noise for rain.</div>
     </div>
     <div class="step">
       <div class="t">Timeline</div>
-      <div class="b">Week 1: star field and twinkle. Week 2: letters, comet input, and sound. Week 3: polish, constellation logic, testing with classmates. Present Dec 8.</div>
+      <div class="b">Week 1: gallery and first exhibit. Week 2: remaining exhibits and sound. Week 3: two more exhibits, polish, and testing with classmates. Present Dec 8.</div>
     </div>
   </div>
   <div class="num">5 / 5</div>

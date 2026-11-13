@@ -1,24 +1,24 @@
-# Starletter — Project B Proposal
+# How It Felt - Project B Proposal
 
 ## Project Description (blog post version)
 
-Starletter is an interactive net art piece that turns letters to the future into a growing night sky. When someone opens the page, they find a dark field of stars. Each star is a letter that a visitor from the past has written to a person living one thousand years from now, in the year 3026. Faint lines connect nearby stars into constellations, so the sky slowly draws its own map of everyone who had something to say.
+How It Felt is an interactive museum of ordinary experiences from 2026, built for the people of 3026. I started with a problem. Most messages to the future try to say something big, love and hope and warnings, and they all end up sounding the same. What actually disappears over a thousand years is not our big statements. It is the small texture of being alive. Future audiences will have our phones in their museums. They will never know what it felt like to watch three typing dots pulse for eleven minutes and then receive "ok".
 
-The visitor can do two things. They can wander the sky and read. When the cursor comes close to a star, it brightens into gold and sings a soft note, as if it notices you. Clicking one opens its letter, and the visitor reads words written by a stranger who may be long gone. The visitor can also write their own letter. When they press send, their words streak across the page as a comet and settle into the sky as a new star. The letter itself shapes the star. A longer letter burns brighter and larger. Warmer words make warmer light. Every visit adds another point of light, and the constellations redraw themselves around it.
+So each exhibit in this piece is a small playable simulation instead of a text. In The Typing Bubble, you wait for a reply that keeps almost arriving, and clicking to send another "?" only makes the wait longer. In One Percent, your battery is dying and every movement of your cursor drains it faster, so you hold perfectly still to make the evening last. In Rain on Glass, you wipe rain off a window while nothing else happens, because sometimes doing nothing was a complete activity. The interaction is the message. You do not read about the feeling. You have the feeling, briefly, and then you understand something about us that no letter could explain.
 
-My message to the future is simple. We were here, we were paying attention, and we were trying to reach you. The internet is usually described as a place of things, pages and posts and files, but Robert Adrian describes it as a space of connections that only exists while the machines are on. Starletter treats a webpage as exactly that kind of space. What I want to send through the portal is not my own drawing of the future. It is a sky full of voices from 2026, still burning, still waiting for someone to look up and read them.
+My message to the future is this. You will keep our objects, and we are sending you the rest. Robert Adrian writes that the internet is not about things but about connections, a space that exists only while the machines are on. How It Felt takes that literally. The piece preserves moments that only exist while someone is playing them. The exhibition in 3026 will not show what we made. It will let people feel, for a few seconds, what it was like to be us.
 
-(approx. 280 words)
+(approx. 290 words)
 
 ## Visual Prototype
 
-See prototype.png in this folder. It shows the main screen: the night sky, the letter-stars, the constellation lines, the hover and click behavior, a new letter arriving as a comet, and the letter-writing panel.
+See prototype.png. It shows the collection page in the style of an archival catalog: three exhibit cards (The Typing Bubble, One Percent, Rain on Glass), each with its specimen number and a small illustration, plus the TO BE OPENED IN 3026 stamp.
 
 ## Slide Deck
 
-See slides.html in this folder (open in a browser, fullscreen, arrow keys to move) or Glowtide_Proposal.pptx in Downloads. Contents:
+See slides.html (browser, fullscreen, arrow keys) or HowItFelt_Proposal.pptx in Downloads. Contents:
 
-1. Working title: Starletter
+1. Working title: How It Felt
 2. One to two sentence description
 3. Visual prototype
 4. Three references with links and reasons
@@ -26,10 +26,10 @@ See slides.html in this folder (open in a browser, fullscreen, arrow keys to mov
 
 ## Time Capsule (physical part, your side)
 
-Put something in the box that connects to the piece. Ideas:
+The box connects to the piece perfectly, because the project is about ordinary objects carrying feelings.
 
-- A handwritten letter to yourself in the future, sealed in an envelope. This mirrors the project exactly, one physical letter next to the digital sky.
-- A glow in the dark star sticker, the kind kids put on bedroom ceilings, as the physical twin of the stars on screen.
-- A printed screenshot of the first version of the sky, so when you open the box during the final presentation you can hold the beginning of the project next to the finished one.
+- A dead charging cable, the physical twin of the One Percent exhibit.
+- An old transit card or a movie ticket stub, the kind of object a future museum would keep without knowing what it meant.
+- Optionally a small note that says "you had to be there", which is the whole thesis of the project.
 
 Do not tell anyone what you packed. Seal it, mark your name, bring it on Nov 13.

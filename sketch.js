@@ -1,231 +1,377 @@
-let stars = [];
-let comets = [];
-let card;
-let cardText;
-let hum;
-let audioStarted = false;
+let current = null;
+let stage;
+let gallery;
+let blip;
+let rainNoise;
+let rainFilter;
 
-const seedLetters = [
-  "I hope the night sky is still dark enough to see me.",
-  "We had flying cars in our dreams. Did you get them?",
-  "Tell the stars we said hello back.",
-  "I wrote this between two lectures. The coffee was terrible. I was happy.",
-  "If money is gone, good. If music is gone, bring it back.",
-  "Someone in 2026 loved someone who never knew. This is how I tell you.",
-  "The sky here is still blue in the day. I hope yours is too.",
-  "We were scared of the future. You are the future. Be kind to us.",
-  "My grandmother said letters outlive their writers. Prove her right.",
-  "I am sending you the sound of rain on a tent. Keep it safe.",
-  "Do people still look up? We forgot to, most days.",
-  "Forgive us for the noise. Some of us were listening."
-];
-
-const warmWords = ["love", "hope", "warm", "happy", "hello", "kind", "dream", "stars", "sun", "light"];
+const EXHIBITS = {
+  typing: {
+    title: "Exhibit 001 - The Typing Bubble",
+    caption: "A message was being written to you. Watch the dots. Click to send another \"?\" while you wait, the way we all did. It will not help.",
+    make: () => new TypingBubble()
+  },
+  battery: {
+    title: "Exhibit 002 - One Percent",
+    caption: "Your battery is at 1%. Every movement of the cursor drains it faster. Hold perfectly still to make the evening last a little longer.",
+    make: () => new OnePercent()
+  },
+  rain: {
+    title: "Exhibit 003 - Rain on Glass",
+    caption: "It is raining and there is nowhere you need to be. Drag across the glass to wipe it. The rain will keep coming. That is fine.",
+    make: () => new RainOnGlass()
+  }
+};
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  card = select("#letterCard");
-  cardText = select("#cardText");
-  textFont("Georgia");
+  let c = createCanvas(900, 560);
+  c.parent("canvasHolder");
+  stage = select("#stage");
+  gallery = select("#gallery");
+  textFont("Helvetica");
 
-  for (let i = 0; i < seedLetters.length; i++) {
-    stars.push(new Star(random(90, width - 140), random(90, height * 0.62), seedLetters[i]));
-  }
-
-  select("#sendBtn").mousePressed(sendLetter);
-  select("#letterInput").elt.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") sendLetter();
+  let cards = document.querySelectorAll(".exhibitCard");
+  cards.forEach(card => {
+    card.addEventListener("click", () => openExhibit(card.dataset.exhibit));
   });
+  select("#backBtn").mousePressed(closeExhibit);
 
-  hum = new p5.Oscillator("sine");
-  hum.amp(0);
-  hum.start();
+  blip = new p5.Oscillator("sine");
+  blip.amp(0);
+  blip.start();
+
+  rainNoise = new p5.Noise("pink");
+  rainFilter = new p5.LowPass();
+  rainFilter.freq(900);
+  rainNoise.disconnect();
+  rainNoise.connect(rainFilter);
+  rainNoise.amp(0);
+  rainNoise.start();
+
+  noLoop();
 }
 
-function sendLetter() {
-  let inp = select("#letterInput");
-  let msg = inp.value().trim();
-  if (msg.length === 0) return;
-  let targetX = random(90, width - 140);
-  let targetY = random(90, height * 0.62);
-  comets.push(new Comet(targetX, targetY, msg));
-  inp.value("");
+function openExhibit(key) {
+  userStartAudio();
+  gallery.style("display", "none");
+  stage.style("display", "block");
+  select("#stageTitle").html(EXHIBITS[key].title);
+  select("#stageCaption").html(EXHIBITS[key].caption);
+  if (current) current.stop();
+  current = EXHIBITS[key].make();
+  current.start();
+  loop();
 }
 
-function warmth(text) {
-  let t = text.toLowerCase();
-  let score = 0;
-  for (let w of warmWords) {
-    if (t.includes(w)) score++;
-  }
-  return score / warmWords.length;
+function closeExhibit() {
+  if (current) current.stop();
+  current = null;
+  stage.style("display", "none");
+  gallery.style("display", "flex");
+  noLoop();
 }
 
 function draw() {
-  drawSky();
-
-  for (let i = 0; i < stars.length; i++) {
-    for (let j = i + 1; j < stars.length; j++) {
-      let dd = dist(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
-      if (dd < 220) {
-        stroke(140, 170, 220, map(dd, 0, 220, 34, 6));
-        strokeWeight(1);
-        line(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
-      }
-    }
-  }
-  noStroke();
-
-  let hovered = null;
-  for (let s of stars) {
-    s.twinkle();
-    s.show();
-    if (s.isHover()) hovered = s;
-  }
-
-  for (let i = comets.length - 1; i >= 0; i--) {
-    comets[i].move();
-    comets[i].show();
-    if (comets[i].done) {
-      stars.push(new Star(comets[i].tx, comets[i].ty, comets[i].letter));
-      comets.splice(i, 1);
-    }
-  }
-
-  if (hovered) {
-    let f = map(hovered.size, 3, 12, 330, 660);
-    hum.freq(f, 0.1);
-    hum.amp(0.05, 0.1);
-    cursor(HAND);
-  } else {
-    hum.amp(0, 0.2);
-    cursor(ARROW);
-  }
-}
-
-function drawSky() {
-  for (let y = 0; y < height; y++) {
-    let t = y / height;
-    stroke(8 + 6 * t, 10 + 6 * t, 28 + 14 * t);
-    line(0, y, width, y);
-  }
-  noStroke();
-  for (let i = 0; i < 90; i++) {
-    let sx = (i * 197.3) % width;
-    let sy = (i * 131.7) % (height * 0.75);
-    let tw = 120 + 60 * sin(frameCount * 0.03 + i);
-    fill(200, 215, 240, tw * 0.5);
-    circle(sx, sy, 1.6);
-  }
-  noFill();
+  if (current) current.draw();
 }
 
 function mousePressed() {
-  if (!audioStarted) {
-    userStartAudio();
-    audioStarted = true;
-  }
-  for (let s of stars) {
-    if (s.isHover()) {
-      card.style("display", "block");
-      cardText.html(s.letter);
-      s.flashTimer = 40;
-      return;
-    }
-  }
-  card.style("display", "none");
+  if (current) current.mousePressed();
 }
 
-class Star {
-  constructor(x, y, letter) {
-    this.x = x;
-    this.y = y;
-    this.letter = letter;
-    this.seed = random(1000);
-    this.size = map(constrain(letter.length, 10, 140), 10, 140, 3.5, 12);
-    let w = warmth(letter);
-    this.col = lerpColor(color(170, 200, 255), color(255, 214, 140), w);
-    this.flashTimer = 0;
-    this.born = frameCount;
-  }
-
-  twinkle() {}
-
-  isHover() {
-    return dist(mouseX, mouseY, this.x, this.y) < this.size + 14;
-  }
-
-  show() {
-    let hov = this.isHover();
-    let tw = 0.75 + 0.25 * sin(frameCount * 0.05 + this.seed * 3);
-    let r = red(this.col), g = green(this.col), b = blue(this.col);
-    let grow = min((frameCount - this.born) / 60, 1);
-    let size = this.size * grow;
-
-    let haloR = size * (hov ? 7 : 4.5);
-    for (let i = 4; i > 0; i--) {
-      let a = (hov ? 26 : 12) * (i / 4);
-      fill(r, g, b, a);
-      circle(this.x, this.y, haloR * (i / 4) * 2);
-    }
-
-    let spike = size * (hov ? 3.4 : 2.4) * tw;
-    stroke(r, g, b, hov ? 200 : 130);
-    strokeWeight(1.4);
-    line(this.x - spike, this.y, this.x + spike, this.y);
-    line(this.x, this.y - spike, this.x, this.y + spike);
-    noStroke();
-
-    fill(r, g, b, 235 * tw);
-    circle(this.x, this.y, size * 2);
-    fill(255, 255, 255, 230);
-    circle(this.x, this.y, size * 0.9);
-
-    if (hov) {
-      noFill();
-      stroke(255, 220, 150, 160);
-      strokeWeight(1.5);
-      let ring = size * 3 + 6 * sin(frameCount * 0.12);
-      circle(this.x, this.y, ring * 2);
-      noStroke();
-    }
-
-    if (this.flashTimer > 0) {
-      fill(255, 240, 200, this.flashTimer * 3);
-      circle(this.x, this.y, size * 2 + this.flashTimer);
-      this.flashTimer--;
-    }
-  }
+function mouseDragged() {
+  if (current) current.mouseDragged();
 }
 
-class Comet {
-  constructor(tx, ty, letter) {
-    this.tx = tx;
-    this.ty = ty;
-    this.letter = letter;
-    this.x = tx + width * 0.35;
-    this.y = -40;
+function playBlip(freq) {
+  blip.freq(freq);
+  blip.amp(0.08, 0.02);
+  blip.amp(0, 0.25, 0.05);
+}
+
+class Exhibit {
+  start() {}
+  stop() {}
+  draw() {}
+  mousePressed() {}
+  mouseDragged() {}
+}
+
+class TypingBubble extends Exhibit {
+  constructor() {
+    super();
+    this.msgs = [
+      { me: true, text: "hey, are you awake?" },
+      { me: false, text: "yeah. whats up" },
+      { me: true, text: "ok so i have to tell you something" }
+    ];
+    this.typing = true;
+    this.typingFor = 0;
+    this.pauses = 0;
+    this.waitAfter = 0;
+    this.nudges = 0;
     this.done = false;
+    this.t = 0;
   }
 
-  move() {
-    this.x += (this.tx - this.x) * 0.06;
-    this.y += (this.ty - this.y) * 0.06;
-    if (dist(this.x, this.y, this.tx, this.ty) < 2) this.done = true;
-  }
-
-  show() {
-    stroke(255, 230, 170, 140);
-    strokeWeight(2);
-    line(this.x, this.y, this.x + 26, this.y - 18);
+  bubble(x, y, w, text, me) {
     noStroke();
-    fill(255, 236, 190);
-    circle(this.x, this.y, 8);
-    fill(255, 255, 255);
-    circle(this.x, this.y, 4);
+    fill(me ? color(28, 26, 22) : color(250, 247, 239));
+    if (!me) {
+      stroke(200, 193, 175);
+      strokeWeight(1.5);
+    }
+    rect(x, y, w, 44, 14);
+    noStroke();
+    fill(me ? color(244, 240, 230) : color(28, 26, 22));
+    textAlign(LEFT, CENTER);
+    textSize(17);
+    text(text, x + 18, y + 23);
+  }
+
+  draw() {
+    background(244, 240, 230);
+    this.t++;
+
+    textAlign(LEFT, TOP);
+    fill(140, 130, 110);
+    textSize(13);
+    text("THURSDAY, 11:38 PM", 60, 36);
+
+    let y = 90;
+    for (let m of this.msgs) {
+      let w = textWidth(m.text) + 40;
+      this.bubble(m.me ? width - 60 - w : 60, y, w, m.text, m.me);
+      y += 62;
+    }
+
+    if (this.typing) {
+      this.typingFor++;
+      let dotsX = 60;
+      noStroke();
+      fill(250, 247, 239);
+      stroke(200, 193, 175);
+      strokeWeight(1.5);
+      rect(dotsX, y, 92, 44, 14);
+      noStroke();
+      for (let i = 0; i < 3; i++) {
+        let bounce = sin(this.t * 0.12 - i * 0.9) * 4;
+        fill(120, 112, 96);
+        circle(dotsX + 24 + i * 22, y + 22 + bounce, 9);
+      }
+      if (this.typingFor % 240 === 0) {
+        this.pauses++;
+        this.typingFor = 0;
+        if (this.pauses % 3 === 2) this.typing = false;
+      }
+      if (this.pauses >= 6 + this.nudges * 2) {
+        this.msgs.push({ me: false, text: "ok" });
+        playBlip(660);
+        this.typing = false;
+        this.done = true;
+        this.waitAfter = this.t;
+        this.pauses = -9999;
+      }
+    } else if (!this.done) {
+      fill(140, 130, 110);
+      textSize(14);
+      textAlign(LEFT, TOP);
+      text("typing stopped.", 64, y + 14);
+      if (this.t % 300 === 0) {
+        this.typing = true;
+        this.typingFor = 0;
+      }
+    }
+
+    if (this.done) {
+      fill(140, 130, 110);
+      textSize(14);
+      textAlign(CENTER, TOP);
+      text("eleven minutes. the message was \"ok\". this happened to everyone, constantly.", width / 2, height - 110);
+      if (this.t - this.waitAfter > 400) {
+        this.msgs = this.msgs.slice(0, 3);
+        this.typing = true;
+        this.done = false;
+        this.pauses = 0;
+        this.typingFor = 0;
+        this.nudges = 0;
+      }
+    } else {
+      fill(179, 64, 42);
+      textSize(14);
+      textAlign(CENTER, TOP);
+      text("click to send another \"?\"", width / 2, height - 110);
+    }
+  }
+
+  mousePressed() {
+    if (this.done) return;
+    this.nudges++;
+    this.msgs.push({ me: true, text: "?" });
+    playBlip(440);
+    if (this.msgs.length > 6) this.msgs.splice(3, 1);
   }
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+class OnePercent extends Exhibit {
+  constructor() {
+    super();
+    this.level = 100;
+    this.survived = 0;
+    this.dead = false;
+    this.deathT = 0;
+    this.lastMX = 0;
+    this.lastMY = 0;
+  }
+
+  start() {
+    this.lastMX = mouseX;
+    this.lastMY = mouseY;
+  }
+
+  draw() {
+    background(20, 20, 24);
+
+    if (!this.dead) {
+      let moved = dist(mouseX, mouseY, this.lastMX, this.lastMY);
+      this.lastMX = mouseX;
+      this.lastMY = mouseY;
+      let drain = 0.012 + min(moved * 0.004, 0.35);
+      this.level -= drain;
+      this.survived += 1 / 60;
+      if (this.level <= 0) {
+        this.level = 0;
+        this.dead = true;
+        playBlip(160);
+      }
+    } else {
+      this.deathT++;
+    }
+
+    let flicker = this.level < 25 ? random(0.85, 1) : 1;
+    let pct = ceil(this.level / 100 * 1);
+    if (this.level > 0 && pct === 0) pct = 1;
+
+    noFill();
+    stroke(230 * flicker);
+    strokeWeight(3);
+    rect(width / 2 - 160, 150, 320, 90, 12);
+    rect(width / 2 + 160, 175, 14, 40, 5);
+    noStroke();
+    fill(this.level < 25 ? color(200, 70, 50) : color(220, 210, 180));
+    rect(width / 2 - 150, 160, max(300 * this.level / 100, 0), 70, 8);
+
+    fill(240 * flicker);
+    textAlign(CENTER, CENTER);
+    textSize(64);
+    text("1%", width / 2, 300);
+    textSize(16);
+    fill(150 * flicker);
+    text("survived: " + nf(this.survived, 2, 1) + " seconds", width / 2, 360);
+    textSize(14);
+    fill(179, 64, 42);
+    text("do not move.", width / 2, 420);
+
+    if (this.dead) {
+      fill(20, 20, 24, min(this.deathT * 2, 235));
+      rect(0, 0, width, height);
+      if (this.deathT > 90) {
+        fill(200, 195, 180);
+        textAlign(CENTER, CENTER);
+        textSize(22);
+        text("11:47 pm", width / 2, height / 2 - 30);
+        textSize(16);
+        fill(140, 135, 120);
+        text("the screen went dark. you never saw the reply.", width / 2, height / 2 + 16);
+        text("you lasted " + nf(this.survived, 2, 1) + " seconds. click to try again.", width / 2, height / 2 + 52);
+      }
+    }
+  }
+
+  mousePressed() {
+    if (this.dead && this.deathT > 90) {
+      this.level = 100;
+      this.survived = 0;
+      this.dead = false;
+      this.deathT = 0;
+    }
+  }
+}
+
+class RainOnGlass extends Exhibit {
+  constructor() {
+    super();
+    this.drops = [];
+    for (let i = 0; i < 160; i++) {
+      this.drops.push({ x: random(width), y: random(height), s: random(6, 10), len: random(10, 26) });
+    }
+    this.lights = [];
+    for (let i = 0; i < 26; i++) {
+      this.lights.push({
+        x: random(width), y: random(height * 0.35, height * 0.85),
+        r: random(14, 46),
+        c: random([color(255, 190, 110), color(140, 180, 230), color(230, 120, 90), color(200, 200, 170)])
+      });
+    }
+    this.wipes = [];
+  }
+
+  start() {
+    rainNoise.amp(0.12, 0.5);
+  }
+
+  stop() {
+    rainNoise.amp(0, 0.3);
+  }
+
+  draw() {
+    background(14, 18, 26);
+    for (let l of this.lights) {
+      noStroke();
+      let c = l.c;
+      fill(red(c), green(c), blue(c), 60);
+      circle(l.x, l.y, l.r * 2);
+      fill(red(c), green(c), blue(c), 40);
+      circle(l.x, l.y, l.r * 3.4);
+    }
+
+    fill(30, 40, 55, 200);
+    rect(0, 0, width, height);
+
+    for (let w of this.wipes) {
+      fill(14, 18, 26, 26);
+      circle(w.x, w.y, w.r * 2);
+    }
+
+    stroke(190, 205, 225, 150);
+    for (let d of this.drops) {
+      d.y += d.s;
+      if (d.y > height) {
+        d.y = -20;
+        d.x = random(width);
+      }
+      let wiped = false;
+      for (let w of this.wipes) {
+        if (dist(d.x, d.y, w.x, w.y) < w.r) {
+          wiped = true;
+          break;
+        }
+      }
+      if (!wiped) {
+        strokeWeight(1.5);
+        line(d.x, d.y, d.x - 2, d.y - d.len);
+      }
+    }
+    noStroke();
+
+    fill(190, 195, 205);
+    textAlign(CENTER, TOP);
+    textSize(14);
+    text("tuesday. nothing else was happening.", width / 2, height - 50);
+  }
+
+  mouseDragged() {
+    this.wipes.push({ x: mouseX, y: mouseY, r: 46 });
+    if (this.wipes.length > 90) this.wipes.shift();
+  }
 }

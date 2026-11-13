@@ -2,42 +2,86 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Starletter</title>
+<title>How It Felt - a field guide to 2026, preserved for 3026</title>
 <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js"></script>
 <style>
-  body { margin: 0; background: #060e22; overflow: hidden; font-family: Helvetica, Arial, sans-serif; }
-  #letterCard {
-    position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
-    width: 300px; background: #f4f0e4; color: #28303f;
-    padding: 26px 28px; border-radius: 14px; display: none;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  :root { --paper: #f4f0e6; --ink: #1c1a16; --red: #b3402a; --rule: #d8d2c2; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink);
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  header { padding: 48px 6vw 28px; border-bottom: 2px solid var(--ink); }
+  .cat { color: var(--red); font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase; }
+  h1 { font-size: clamp(34px, 5vw, 56px); margin: 12px 0 10px; font-weight: 700; }
+  header p { font-size: 17px; color: #5a5346; max-width: 640px; line-height: 1.6; margin: 0; }
+  #gallery { display: flex; flex-wrap: wrap; gap: 28px; padding: 40px 6vw 60px; }
+  .exhibitCard {
+    width: 320px; border: 1.5px solid var(--ink); background: #faf7ef;
+    padding: 22px 24px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
   }
-  #letterCard h3 { margin: 0 0 12px; font-size: 20px; }
-  #letterCard p { margin: 0; line-height: 1.6; font-size: 15px; }
-  #writer {
-    position: absolute; left: 40px; bottom: 36px;
-    background: rgba(16, 26, 44, 0.92); border: 1px solid #28425e;
-    border-radius: 14px; padding: 18px 20px; width: 340px;
-  }
-  #writer label { color: #c8e0ee; font-size: 15px; display: block; margin-bottom: 10px; }
-  #letterInput {
-    width: 220px; padding: 10px 12px; border-radius: 8px; border: none;
-    font-size: 14px; background: #e8ecf2; color: #333;
-  }
-  #sendBtn {
-    padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer;
-    background: #6ee6dc; color: #0a282d; font-weight: bold; font-size: 14px;
-  }
+  .exhibitCard:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--ink); }
+  .exhibitCard .num { color: var(--red); font-size: 13px; letter-spacing: 0.2em; }
+  .exhibitCard h2 { font-size: 24px; margin: 10px 0 8px; }
+  .exhibitCard p { font-size: 14px; line-height: 1.55; color: #5a5346; margin: 0 0 14px; }
+  .exhibitCard .enter { font-size: 13px; color: var(--red); letter-spacing: 0.12em; text-transform: uppercase; }
+  #stage { display: none; padding: 32px 6vw 60px; }
+  #stageBar { display: flex; justify-content: space-between; align-items: baseline;
+              border-bottom: 1px solid var(--rule); padding-bottom: 14px; margin-bottom: 8px; }
+  #stageTitle { font-size: 26px; font-weight: 700; }
+  #backBtn { background: none; border: 1.5px solid var(--ink); padding: 8px 18px;
+             cursor: pointer; font-size: 14px; color: var(--ink); }
+  #backBtn:hover { background: var(--ink); color: var(--paper); }
+  #stageCaption { font-size: 14px; color: #5a5346; line-height: 1.6; max-width: 720px; margin: 16px 0; }
+  #canvasHolder { display: flex; justify-content: center; }
+  #canvasHolder canvas { border: 1.5px solid var(--ink); }
+  footer { padding: 24px 6vw 40px; border-top: 1px solid var(--rule);
+           font-size: 13px; color: #8a8272; }
 </style>
 </head>
 <body>
-<div id="letterCard"><h3 id="cardTitle">dear 3026,</h3><p id="cardText"></p></div>
-<div id="writer">
-  <label>write a letter to the year 3026</label>
-  <input id="letterInput" placeholder="dear future..." maxlength="140">
-  <button id="sendBtn">send</button>
+
+<header>
+  <div class="cat">Archive of ordinary experience - collection 2026</div>
+  <h1>How It Felt</h1>
+  <p>An interactive field guide to being alive in 2026, preserved for the people of 3026.
+     You will have our objects. You will not have our feelings. These exhibits are not to be read.
+     They are to be lived, briefly.</p>
+</header>
+
+<div id="gallery">
+  <div class="exhibitCard" data-exhibit="typing">
+    <div class="num">EXHIBIT 001</div>
+    <h2>The Typing Bubble</h2>
+    <p>Three dots meant someone was composing a thought just for you. Sometimes they composed for
+       eleven minutes. Sometimes the thought was "ok".</p>
+    <div class="enter">Enter exhibit -&gt;</div>
+  </div>
+  <div class="exhibitCard" data-exhibit="battery">
+    <div class="num">EXHIBIT 002</div>
+    <h2>One Percent</h2>
+    <p>The last percent of a battery lasted exactly as long as your self control. Movement made it
+       worse. Stillness was the only prayer we had.</p>
+    <div class="enter">Enter exhibit -&gt;</div>
+  </div>
+  <div class="exhibitCard" data-exhibit="rain">
+    <div class="num">EXHIBIT 003</div>
+    <h2>Rain on Glass</h2>
+    <p>Sometimes it rained and we watched it through a window and did nothing else.
+       This was a complete activity. Drag to wipe the glass.</p>
+    <div class="enter">Enter exhibit -&gt;</div>
+  </div>
 </div>
+
+<div id="stage">
+  <div id="stageBar">
+    <div id="stageTitle"></div>
+    <button id="backBtn">&lt;- back to collection</button>
+  </div>
+  <div id="stageCaption"></div>
+  <div id="canvasHolder"></div>
+</div>
+
+<footer>How It Felt - Project B (Dear Future), Creative Coding Lab, Fall 2026 - Aito Nurakhan</footer>
 <script src="sketch.js"></script>
 </body>
 </html>
