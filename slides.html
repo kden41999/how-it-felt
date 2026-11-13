@@ -4,107 +4,37 @@
 <meta charset="UTF-8">
 <title>How It Felt - Project Proposal</title>
 <style>
-  :root { --paper: #f4f0e6; --ink: #1c1a16; --red: #b3402a; --muted: #6e6454; --rule: #d8d2c2; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--paper); color: var(--ink);
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    overflow: hidden;
+  body { background: #1c1a16; overflow: hidden; font-family: Helvetica, Arial, sans-serif; }
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide { display: none; width: 100%; height: 100%; position: relative; }
+  .slide.active { display: block; }
+  .slide > img.board { width: 100%; height: 100%; object-fit: contain; background: #f4f0e6; }
+  .demo {
+    position: absolute;
+    left: 59.9%; top: 31.48%; width: 34.375%;
+    display: none;
   }
-  .slide {
-    width: 100vw; height: 100vh; display: none;
-    flex-direction: column; justify-content: center; padding: 7vh 7vw;
-    position: relative;
+  .slide.active .demo { display: block; }
+  .hint {
+    position: fixed; bottom: 12px; right: 16px; color: #8a8272;
+    font-size: 12px; letter-spacing: 0.15em;
   }
-  .slide.active { display: flex; }
-  .kicker {
-    font-size: 0.95rem; letter-spacing: 0.35em; text-transform: uppercase;
-    color: var(--red); margin-bottom: 2.4vh; font-weight: 700;
-  }
-  h1 { font-size: 6.4rem; font-weight: 700; line-height: 1.02; }
-  h2 { font-size: 3.2rem; font-weight: 700; line-height: 1.1; margin-bottom: 3vh; }
-  p.lede { font-size: 1.6rem; line-height: 1.6; color: #4a4234; max-width: 60ch; margin-top: 3vh; }
-  .sub { color: var(--muted); font-size: 1.2rem; margin-top: 2vh; }
-  .rule { height: 3px; background: var(--ink); width: 100%; margin: 3vh 0; }
-  .num { position: absolute; bottom: 4vh; right: 5vw; color: var(--muted); font-size: 0.95rem; letter-spacing: 0.2em; }
-  .ref { border-left: 4px solid var(--red); padding: 0.6vh 0 0.6vh 2vw; margin: 2.4vh 0; max-width: 72ch; }
-  .ref .name { font-size: 1.45rem; font-weight: 700; }
-  .ref .url { font-size: 1.05rem; color: var(--red); margin: 0.5vh 0 0.9vh; }
-  .ref .why { font-size: 1.12rem; color: #4a4234; line-height: 1.55; }
-  .proto-img { max-height: 70vh; max-width: 100%; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
-  .center { align-items: center; text-align: center; }
-  .steps { display: flex; gap: 2.4vw; margin-top: 4vh; }
-  .step { flex: 1; background: #faf7ef; border: 1.5px solid var(--ink); padding: 3vh 1.8vw; }
-  .step .t { font-size: 1.25rem; font-weight: 700; color: var(--red); margin-bottom: 1.2vh; }
-  .step .b { font-size: 1.05rem; color: #4a4234; line-height: 1.6; }
-  .demo { margin-top: 3vh; border: 2px solid var(--ink); max-height: 34vh; }
 </style>
 </head>
 <body>
-
-<section class="slide active">
-  <div class="kicker">Project B - Dear Future - Proposal</div>
-  <h1>How It Felt</h1>
-  <div class="rule"></div>
-  <p class="lede">an interactive field guide to being alive in 2026, preserved for the people of 3026</p>
-  <p class="sub">Aito Nurakhan - Interactive Internet Art - Nov 13, 2026</p>
-  <div class="num">1 / 5</div>
-</section>
-
-<section class="slide">
-  <div class="kicker">The Idea</div>
-  <h2>A museum of ordinary feelings</h2>
-  <p class="lede">How It Felt is an interactive museum of small everyday experiences from 2026, where each exhibit is a playable simulation rather than a text, so the people of 3026 do not read about our lives but briefly live them. They will keep our objects in their museums, and this piece sends them the rest: the waiting, the battery anxiety, the quiet of watching rain.</p>
-  <img class="demo" src="glowtide.gif" alt="The Typing Bubble exhibit demo">
-  <div class="num">2 / 5</div>
-</section>
-
-<section class="slide center">
-  <div class="kicker">Visual Prototype</div>
-  <img class="proto-img" src="prototype.png" alt="How It Felt collection page">
-  <div class="num">3 / 5</div>
-</section>
-
-<section class="slide">
-  <div class="kicker">References</div>
-  <div class="ref">
-    <div class="name">Neal.fun - The Deep Sea and The Size of Space</div>
-    <div class="url">neal.fun</div>
-    <div class="why">Proof that a browser can be a museum. Small, focused interactions explain something by letting you do it, which is exactly the grammar of my exhibits.</div>
+<div class="deck">
+  <div class="slide active"><img class="board" src="deck/slide1.png" alt="cover"></div>
+  <div class="slide">
+    <img class="board" src="deck/slide2.png" alt="the idea">
+    <img class="demo" src="glowtide.gif" alt="typing bubble demo">
   </div>
-  <div class="ref">
-    <div class="name">Pippin Barr - v r 3</div>
-    <div class="url">pippinbarr.com/games/vr3/</div>
-    <div class="why">A gallery that exhibits ordinary water, taps, and puddles as art. It showed me that the mundane becomes meaningful when you frame it as a collection worth visiting.</div>
-  </div>
-  <div class="ref">
-    <div class="name">The Museum of Broken Relationships</div>
-    <div class="url">brokenships.com</div>
-    <div class="why">A museum built from donated everyday objects and the feelings attached to them. It is the physical ancestor of my idea: objects survive, and what needs preserving is the feeling around them.</div>
-  </div>
-  <div class="num">4 / 5</div>
-</section>
-
-<section class="slide">
-  <div class="kicker">How It Works</div>
-  <h2>Built in p5.js</h2>
-  <div class="steps">
-    <div class="step">
-      <div class="t">Exhibit class</div>
-      <div class="b">A shared Exhibit structure with start, draw, and interaction methods. Each exhibit is its own class: TypingBubble, OnePercent, RainOnGlass. The gallery opens and closes them.</div>
-    </div>
-    <div class="step">
-      <div class="t">Interaction as content</div>
-      <div class="b">Waiting, holding still, and wiping are the exhibits themselves. Sound comes from small oscillator blips for messages and filtered noise for rain.</div>
-    </div>
-    <div class="step">
-      <div class="t">Timeline</div>
-      <div class="b">Week 1: gallery and first exhibit. Week 2: remaining exhibits and sound. Week 3: two more exhibits, polish, and testing with classmates. Present Dec 8.</div>
-    </div>
-  </div>
-  <div class="num">5 / 5</div>
-</section>
-
+  <div class="slide"><img class="board" src="deck/slide3.png" alt="exhibits"></div>
+  <div class="slide"><img class="board" src="deck/slide4.png" alt="references"></div>
+  <div class="slide"><img class="board" src="deck/slide5.png" alt="how it works"></div>
+  <div class="slide"><img class="board" src="deck/slide6.png" alt="closing"></div>
+</div>
+<div class="hint">arrow keys to move</div>
 <script>
   const slides = document.querySelectorAll('.slide');
   let i = 0;
@@ -118,6 +48,5 @@
   });
   document.addEventListener('click', () => show(i + 1));
 </script>
-
 </body>
 </html>
