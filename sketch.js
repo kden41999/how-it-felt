@@ -138,6 +138,7 @@ class TypingBubble extends Exhibit {
     textSize(13);
     text("THURSDAY, 11:38 PM", 60, 36);
 
+    textSize(17);
     let y = 90;
     for (let m of this.msgs) {
       let w = textWidth(m.text) + 40;
@@ -258,8 +259,9 @@ class OnePercent extends Exhibit {
     rect(width / 2 - 160, 150, 320, 90, 12);
     rect(width / 2 + 160, 175, 14, 40, 5);
     noStroke();
-    fill(this.level < 25 ? color(200, 70, 50) : color(220, 210, 180));
-    rect(width / 2 - 150, 160, max(300 * this.level / 100, 0), 70, 8);
+    fill(200, 70, 50);
+    let sliver = 26 * (0.6 + 0.4 * this.level / 100);
+    rect(width / 2 - 150, 160, sliver, 70, 8);
 
     fill(240 * flicker);
     textAlign(CENTER, CENTER);
@@ -269,7 +271,7 @@ class OnePercent extends Exhibit {
     fill(150 * flicker);
     text("survived: " + nf(this.survived, 2, 1) + " seconds", width / 2, 360);
     textSize(14);
-    fill(179, 64, 42);
+    fill(220, 110, 85);
     text("do not move.", width / 2, 420);
 
     if (this.dead) {
