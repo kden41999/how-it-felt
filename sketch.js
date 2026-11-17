@@ -114,7 +114,7 @@ class TypingBubble extends Exhibit {
     this.t = 0;
   }
 
-  bubble(x, y, w, text, me) {
+  bubble(x, y, w, content, me) {
     noStroke();
     fill(me ? color(28, 26, 22) : color(250, 247, 239));
     if (!me) {
@@ -126,7 +126,7 @@ class TypingBubble extends Exhibit {
     fill(me ? color(244, 240, 230) : color(28, 26, 22));
     textAlign(LEFT, CENTER);
     textSize(17);
-    text(text, x + 18, y + 23);
+    text(content, x + 18, y + 23);
   }
 
   draw() {
