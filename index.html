@@ -34,6 +34,11 @@
   #stageCaption { font-size: 14px; color: #5a5346; line-height: 1.6; max-width: 720px; margin: 16px 0; }
   #canvasHolder { display: flex; justify-content: center; }
   #canvasHolder canvas { border: 1.5px solid var(--ink); }
+  #about { padding: 44px 6vw 56px; border-top: 1px solid var(--rule); }
+  #about .inner { max-width: 760px; }
+  #about .cat { margin-bottom: 14px; }
+  #about p { font-size: 16px; line-height: 1.75; color: #4a4234; margin: 0 0 18px; }
+  #about p.thesis { font-size: 19px; color: var(--ink); font-weight: 700; }
   footer { padding: 24px 6vw 40px; border-top: 1px solid var(--rule);
            font-size: 13px; color: #8a8272; }
 </style>
@@ -80,6 +85,15 @@
   <div id="stageCaption"></div>
   <div id="canvasHolder"></div>
 </div>
+
+<section id="about">
+  <div class="inner">
+    <div class="cat">About this collection</div>
+    <p>How It Felt is an interactive museum of small, ordinary experiences from 2026, made for people living in 3026. When I started this project, I kept thinking about what actually survives over a thousand years. Big statements about love and hope tend to sound the same no matter who writes them. What disappears is the texture of daily life. A future museum might have my phone in a glass case, but nobody there will know what it felt like to watch three typing dots for ten minutes and then receive "ok".</p>
+    <p>So instead of writing a letter to the future, I built three small exhibits you play. In The Typing Bubble, you wait for a reply that keeps almost arriving. You can click to send another "?" but it only makes the waiting longer. In One Percent, your battery is dying and every movement of your cursor drains it faster, so you have to hold completely still. In Rain on Glass, you drag your cursor to wipe rain off a window while nothing else happens, because sometimes that was a whole evening.</p>
+    <p class="thesis">The interaction is the message. You don't read about the feeling, you have it for a few seconds, and then you understand something about us that no description could explain. My message to 3026 is simple: you will keep our objects, and I am sending you the rest.</p>
+  </div>
+</section>
 
 <footer>How It Felt - Project B (Dear Future), Creative Coding Lab, Fall 2026 - Aitole Nurakhan</footer>
 <script src="sketch.js"></script>
