@@ -2,13 +2,13 @@
 
 ## Project Description (blog post version)
 
-How It Felt is an interactive museum of ordinary experiences from 2026, built for the people of 3026. I started with a problem. Most messages to the future try to say something big, love and hope and warnings, and they all end up sounding the same. What actually disappears over a thousand years is not our big statements. It is the small texture of being alive. Future audiences will have our phones in their museums. They will never know what it felt like to watch three typing dots pulse for eleven minutes and then receive "ok".
+How It Felt is an interactive museum of small, ordinary experiences from 2026, made for people living in 3026. When I started this project, I kept thinking about what actually survives over a thousand years. Big statements about love and hope tend to sound the same no matter who writes them. What disappears is the texture of daily life. A future museum might have my phone in a glass case, but nobody there will know what it felt like to watch three typing dots for ten minutes and then receive "ok".
 
-So each exhibit in this piece is a small playable simulation instead of a text. In The Typing Bubble, you wait for a reply that keeps almost arriving, and clicking to send another "?" only makes the wait longer. In One Percent, your battery is dying and every movement of your cursor drains it faster, so you hold perfectly still to make the evening last. In Rain on Glass, you wipe rain off a window while nothing else happens, because sometimes doing nothing was a complete activity. The interaction is the message. You do not read about the feeling. You have the feeling, briefly, and then you understand something about us that no letter could explain.
+So instead of writing a letter to the future, I built three small exhibits you play. In The Typing Bubble, you wait for a reply that keeps almost arriving. You can click to send another "?" but it only makes the waiting longer. In One Percent, your battery is dying and every movement of your cursor drains it faster, so you have to hold completely still. In Rain on Glass, you drag your cursor to wipe rain off a window while nothing else happens, because sometimes that was a whole evening.
 
-My message to the future is this. You will keep our objects, and we are sending you the rest. Robert Adrian writes that the internet is not about things but about connections, a space that exists only while the machines are on. How It Felt takes that literally. The piece preserves moments that only exist while someone is playing them. The exhibition in 3026 will not show what we made. It will let people feel, for a few seconds, what it was like to be us.
+The interaction is the message. You don't read about the feeling, you have it for a few seconds, and then you understand something about us that no description could explain. My message to 3026 is simple: you will keep our objects, and I am sending you the rest.
 
-(approx. 290 words)
+(approx. 250 words)
 
 ## Visual Prototype
 
