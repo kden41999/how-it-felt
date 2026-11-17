@@ -230,7 +230,7 @@ class OnePercent extends Exhibit {
   }
 
   draw() {
-    background(20, 20, 24);
+    background(28, 30, 38);
 
     if (!this.dead) {
       let moved = dist(mouseX, mouseY, this.lastMX, this.lastMY);
@@ -273,7 +273,7 @@ class OnePercent extends Exhibit {
     text("do not move.", width / 2, 420);
 
     if (this.dead) {
-      fill(20, 20, 24, min(this.deathT * 2, 235));
+      fill(28, 30, 38, min(this.deathT * 2, 235));
       rect(0, 0, width, height);
       if (this.deathT > 90) {
         fill(200, 195, 180);
@@ -325,25 +325,27 @@ class RainOnGlass extends Exhibit {
   }
 
   draw() {
-    background(14, 18, 26);
+    background(24, 33, 46);
     for (let l of this.lights) {
       noStroke();
       let c = l.c;
-      fill(red(c), green(c), blue(c), 60);
+      fill(red(c), green(c), blue(c), 95);
       circle(l.x, l.y, l.r * 2);
-      fill(red(c), green(c), blue(c), 40);
+      fill(red(c), green(c), blue(c), 55);
       circle(l.x, l.y, l.r * 3.4);
     }
 
-    fill(30, 40, 55, 200);
+    fill(38, 52, 72, 150);
     rect(0, 0, width, height);
 
     for (let w of this.wipes) {
-      fill(14, 18, 26, 26);
-      circle(w.x, w.y, w.r * 2);
+      fill(190, 210, 235, 22);
+      circle(w.x, w.y, w.r * 2.2);
+      fill(210, 228, 248, 16);
+      circle(w.x, w.y, w.r * 1.4);
     }
 
-    stroke(190, 205, 225, 150);
+    stroke(205, 222, 245, 200);
     for (let d of this.drops) {
       d.y += d.s;
       if (d.y > height) {
@@ -358,16 +360,24 @@ class RainOnGlass extends Exhibit {
         }
       }
       if (!wiped) {
-        strokeWeight(1.5);
+        strokeWeight(2);
         line(d.x, d.y, d.x - 2, d.y - d.len);
       }
     }
     noStroke();
 
-    fill(190, 195, 205);
+    for (let w of this.wipes) {
+      noFill();
+      stroke(225, 238, 252, 60);
+      strokeWeight(1.5);
+      circle(w.x, w.y, w.r * 2);
+      noStroke();
+    }
+
+    fill(215, 222, 235);
     textAlign(CENTER, TOP);
     textSize(14);
-    text("tuesday. nothing else was happening.", width / 2, height - 50);
+    text("tuesday. nothing else was happening. drag to wipe the glass.", width / 2, height - 50);
   }
 
   mouseDragged() {
